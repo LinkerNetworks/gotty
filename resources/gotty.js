@@ -1,7 +1,19 @@
 (function() {
     var httpsEnabled = window.location.protocol == "https:";
-    var args = window.location.search;
+
     var url = (httpsEnabled ? 'wss://' : 'ws://') + window.location.host + window.location.pathname + 'ws';
+	
+	var args = window.location.search;
+	var fullUrl = url + args;
+	var ip = getParameterByName(fullUrl,"ip")
+	var port = getParameterByName(fullUrl,"port")
+	var cid = getParameterByName(fullUrl,"cid")
+	
+	console.log(fullUrl)
+	console.log(ip)
+	console.log(port)
+	console.log(cid)
+	
     var protocols = ["gotty"];
     var autoReconnect = -1;
 
@@ -13,7 +25,7 @@
         var pingTimer;
 
         ws.onopen = function(event) {
-            ws.send(JSON.stringify({ Arguments: args, AuthToken: gotty_auth_token,}));
+            ws.send(JSON.stringify({ Arguments: args, AuthToken: gotty_auth_token, ip: ip, port: port, cid: cid,}));
             pingTimer = setInterval(sendPing, 30 * 1000, ws);
 
             hterm.defaultStorage = new lib.Storage.Local();
@@ -87,10 +99,19 @@
         };
     }
 
-
     var sendPing = function(ws) {
         ws.send("1");
     }
 
     openWs();
 })()
+
+function getParameterByName(url, name) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}

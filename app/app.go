@@ -29,6 +29,9 @@ import (
 )
 
 type InitMessage struct {
+	Ip        string `json:"ip"`
+	Port      string `json:"port"`
+	Cid       string `json:"cid"`
 	Arguments string `json:"Arguments,omitempty"`
 	AuthToken string `json:"AuthToken,omitempty"`
 }
@@ -151,7 +154,7 @@ func (app *App) Run() error {
 		log.Printf("Once option is provided, accepting only one client")
 	}
 
-	path := ""
+	path := "/console"
 	if app.options.EnableRandomUrl {
 		path += "/" + generateRandomString(app.options.RandomUrlLength)
 	}
@@ -306,6 +309,7 @@ func (app *App) handleWS(w http.ResponseWriter, r *http.Request) {
 		conn.Close()
 		return
 	}
+
 	argv := app.command[1:]
 	if app.options.PermitArguments {
 		if init.Arguments == "" {
@@ -336,10 +340,20 @@ func (app *App) handleWS(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	cmd := exec.Command(app.command[0], argv...)
+	appCmd := app.command[0]
+	myCmd := "./remote-docker-exec"
+	log.Printf("I have replaced command <%s> with <%s>", appCmd, myCmd)
+
+	// Hack here to support args
+	ip := init.Ip
+	port := init.Port
+	cId := init.Cid
+	log.Printf("execute command: %s %s %s %s", myCmd, ip, port, cId)
+
+	cmd := exec.Command(myCmd, ip, port, cId)
 	ptyIo, err := pty.Start(cmd)
 	if err != nil {
-		log.Print("Failed to execute command")
+		log.Printf("execute command error: %v", err)
 		return
 	}
 	log.Printf("Command is running for client %s with PID %d (args=%q)", r.RemoteAddr, cmd.Process.Pid, strings.Join(argv, " "))
