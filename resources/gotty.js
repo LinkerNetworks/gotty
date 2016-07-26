@@ -5,14 +5,7 @@
 	
 	var args = window.location.search;
 	var fullUrl = url + args;
-	var ip = getParameterByName(fullUrl,"ip")
-	var port = getParameterByName(fullUrl,"port")
 	var cid = getParameterByName(fullUrl,"cid")
-	
-	console.log(fullUrl)
-	console.log(ip)
-	console.log(port)
-	console.log(cid)
 	
     var protocols = ["gotty"];
     var autoReconnect = -1;
@@ -25,7 +18,7 @@
         var pingTimer;
 
         ws.onopen = function(event) {
-            ws.send(JSON.stringify({ Arguments: args, AuthToken: gotty_auth_token, ip: ip, port: port, cid: cid,}));
+            ws.send(JSON.stringify({ Arguments: args, AuthToken: gotty_auth_token, cid: cid,}));
             pingTimer = setInterval(sendPing, 30 * 1000, ws);
 
             hterm.defaultStorage = new lib.Storage.Local();

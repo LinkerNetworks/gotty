@@ -29,8 +29,6 @@ import (
 )
 
 type InitMessage struct {
-	Ip        string `json:"ip"`
-	Port      string `json:"port"`
 	Cid       string `json:"cid"`
 	Arguments string `json:"Arguments,omitempty"`
 	AuthToken string `json:"AuthToken,omitempty"`
@@ -340,17 +338,13 @@ func (app *App) handleWS(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	appCmd := app.command[0]
-	myCmd := "./remote-docker-exec"
-	log.Printf("I have replaced command <%s> with <%s>", appCmd, myCmd)
+	cmdDockerExec := "./remote-docker-exec"
 
 	// Hack here to support args
-	ip := init.Ip
-	port := init.Port
 	cId := init.Cid
-	log.Printf("execute command: %s %s %s %s", myCmd, ip, port, cId)
+	log.Printf("execute command: %s %s\n", cmdDockerExec, cId)
 
-	cmd := exec.Command(myCmd, ip, port, cId)
+	cmd := exec.Command(cmdDockerExec, cId)
 	ptyIo, err := pty.Start(cmd)
 	if err != nil {
 		log.Printf("execute command error: %v", err)
