@@ -188,3 +188,9 @@ GoTTY uses [hterm](https://groups.google.com/a/chromium.org/forum/#!forum/chromi
 # License
 
 The MIT License
+
+# Related projects
+[LinkerNetworks/linkerDcosDockerFile/linkerWebConsole][https://github.com/LinkerNetworks/linkerDcosDockerFile/tree/console/linkerWebConsole]: Dockerfile, golang binaries and config files
+
+[LinkerNetworks/remote-docker-exec][https://github.com/LinkerNetworks/remote-docker-exec]: Connect to docker swarm or docker daemon over TLS, 
+and run command inside a docker container. Act as a remote docker exec.
