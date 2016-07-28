@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/yudai/gotty",
+	"ImportPath": "github.com/LinkerNetworks/gotty",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v62",
 	"Packages": [
