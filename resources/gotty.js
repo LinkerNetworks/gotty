@@ -1,7 +1,7 @@
 (function() {
     var httpsEnabled = window.location.protocol == "https:";
 
-    var url = (httpsEnabled ? 'wss://' : 'ws://') + window.location.host + window.location.pathname + 'ws';
+    var url = (httpsEnabled ? 'wss://' : 'ws://') + window.jump.host + window.jump.pathname + 'ws';
 	
 	var args = window.location.search;
 	var fullUrl = url + args;
