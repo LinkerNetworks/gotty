@@ -28,10 +28,6 @@ import (
 	"github.com/yudai/umutex"
 )
 
-var (
-	connection int = 0
-)
-
 type InitMessage struct {
 	Cid       string `json:"cid"`
 	Arguments string `json:"Arguments,omitempty"`
@@ -48,6 +44,8 @@ type App struct {
 	titleTemplate *template.Template
 
 	onceMutex *umutex.UnblockingMutex
+
+	connections int
 }
 
 type Options struct {
@@ -282,8 +280,8 @@ func (app *App) makeServer(addr string, handler *http.Handler) (*http.Server, er
 
 func (app *App) handleWS(w http.ResponseWriter, r *http.Request) {
 	if app.options.MaxConnection != 0 {
-		if connection >= app.options.MaxConnection {
-			log.Printf("reached max connection: %d", app.options.MaxConnection)
+		if app.connections >= app.options.MaxConnection {
+			log.Printf("Reached max connection: %d", app.options.MaxConnection)
 			return
 		}
 	}
@@ -362,10 +360,15 @@ func (app *App) handleWS(w http.ResponseWriter, r *http.Request) {
 		log.Printf("execute command error: %v", err)
 		return
 	}
+
 	log.Printf("Command is running for client %s with PID %d (args=%q)", r.RemoteAddr, cmd.Process.Pid, strings.Join(argv, " "))
 
-	connection++
-	log.Printf("Connection: %d/%d\n", connection, app.options.MaxConnection)
+	app.connections++
+	if app.options.MaxConnection != 0 {
+		log.Printf("Connections: %d/%d", app.connections, app.options.MaxConnection)
+	} else {
+		log.Printf("Connections: %d", app.connections)
+	}
 
 	context := &clientContext{
 		app:        app,
