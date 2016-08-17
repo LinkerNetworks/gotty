@@ -14,8 +14,8 @@ import (
 	"unsafe"
 
 	"github.com/fatih/structs"
-	"github.com/gorilla/websocket"
 	"github.com/zyfdegh/boomer"
+	"github.com/zyfdegh/websocket"
 )
 
 type clientContext struct {
