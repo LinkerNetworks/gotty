@@ -1,10 +1,7 @@
 {
 	"ImportPath": "github.com/LinkerNetworks/gotty",
 	"GoVersion": "go1.6",
-	"GodepVersion": "v62",
-	"Packages": [
-		"./..."
-	],
+	"GodepVersion": "v74",
 	"Deps": [
 		{
 			"ImportPath": "github.com/braintree/manners",
@@ -23,10 +20,6 @@
 		{
 			"ImportPath": "github.com/fatih/structs",
 			"Rev": "a9f7daa9c2729e97450c2da2feda19130a367d8f"
-		},
-		{
-			"ImportPath": "github.com/gorilla/websocket",
-			"Rev": "b6ab76f1fe9803ee1d59e7e5b2a797c1fe897ce5"
 		},
 		{
 			"ImportPath": "github.com/hashicorp/go-multierror",
@@ -52,6 +45,15 @@
 		{
 			"ImportPath": "github.com/yudai/umutex",
 			"Rev": "18216d265c6bc72c3bb0ad9c8103d47d530b7003"
+		},
+		{
+			"ImportPath": "github.com/zyfdegh/boomer",
+			"Rev": "b551789f35559b5df7c36f807f4a9d578f3881cd"
+		},
+		{
+			"ImportPath": "github.com/zyfdegh/websocket",
+			"Comment": "v1.0.0-21-gaeb982d",
+			"Rev": "aeb982dfc4092bc75b7cf6106e19f07565eb1a40"
 		}
 	]
 }
