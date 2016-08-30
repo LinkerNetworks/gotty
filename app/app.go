@@ -353,8 +353,12 @@ func (app *App) handleWS(w http.ResponseWriter, r *http.Request) {
 
 	// Hack here to support args
 	cId := init.Cid
-	log.Printf("execute command: %s %s\n", cmdDockerExec, cId)
+	if !isLinkerDcosContainer(cId) {
+		log.Printf("forbid connection to %s: not linker dcos container", cId)
+		return
+	}
 
+	log.Printf("execute command: %s %s\n", cmdDockerExec, cId)
 	cmd := exec.Command(cmdDockerExec, cId)
 	ptyIo, err := pty.Start(cmd)
 	if err != nil {
